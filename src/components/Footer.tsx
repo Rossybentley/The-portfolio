@@ -1,21 +1,28 @@
 import "../styles/footer.css";
 
 function Footer() {
+  const year = new Date().getFullYear();
+
   return (
     <footer className="footer">
       <div className="container footer-content">
-        <h3>Emeka</h3>
-
-        <p>
-          Frontend Developer building modern and responsive web experiences.
-          Connect with me on
-        </p>
+        <div className="footer-brand">
+          <a href="#home" className="footer-logo">
+            <span className="logo-mark">E</span>
+            Emeka
+          </a>
+          <p>Frontend Developer crafting modern web experiences.</p>
+        </div>
 
         <div className="footer-links">
-          <a href="#">Github</a>
-          <a href="#">LinkedIn</a>
-          <a href="#">Twitter</a>
+          <a href="#projects">Projects</a>
+          <a href="#about">About</a>
+          <a href="#contact">Contact</a>
         </div>
+
+        <p className="footer-copy">
+          &copy; {year} Emeka. Built with React & TypeScript.
+        </p>
       </div>
     </footer>
   );

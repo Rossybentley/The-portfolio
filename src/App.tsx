@@ -8,12 +8,13 @@ import Footer from "./components/Footer";
 
 function App() {
   return (
-    <div>
+    <div className="dark">
+      <div className="background-effects"></div>
       <Navbar />
       <Hero />
-      <Projects />
       <About />
       <Skills />
+      <Projects />
       <Contact />
       <Footer />
     </div>
