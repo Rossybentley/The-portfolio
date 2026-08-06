@@ -1,7 +1,8 @@
-import "../styles/Contact.css";
+import { useRef, useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 import emailjs from "@emailjs/browser";
-import { useRef, useEffect } from "react";
-import { motion } from "framer-motion";
+import { Send, Check } from "./Icons";
+import "../styles/contact.css";
 
 const SERVICE_ID = import.meta.env.VITE_EMAILJS_SERVICE_ID as
   | string
@@ -13,22 +14,15 @@ const PUBLIC_KEY = import.meta.env.VITE_EMAILJS_PUBLIC_KEY as
   | string
   | undefined;
 
-function Contact() {
-  const form = useRef<HTMLFormElement>(null);
+type FormStatus = "idle" | "sending" | "success" | "error";
 
-  useEffect(() => {
-    if (PUBLIC_KEY) {
-      try {
-        emailjs.init(PUBLIC_KEY);
-      } catch (err) {
-        console.error("EmailJS init error:", err);
-      }
-    }
-  }, []);
+export default function Contact() {
+  const formRef = useRef<HTMLFormElement>(null);
+  const [status, setStatus] = useState<FormStatus>("idle");
 
   const sendEmail = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!form.current) return;
+    if (!formRef.current) return;
 
     if (!SERVICE_ID || !TEMPLATE_ID || !PUBLIC_KEY) {
       alert(
@@ -37,13 +31,22 @@ function Contact() {
       return;
     }
 
+    setStatus("sending");
+
     try {
-      await emailjs.sendForm(SERVICE_ID, TEMPLATE_ID, form.current);
-      alert("Message sent successfully!");
-      form.current.reset();
+      await emailjs.sendForm(
+        SERVICE_ID,
+        TEMPLATE_ID,
+        formRef.current,
+        PUBLIC_KEY,
+      );
+      setStatus("success");
+      formRef.current.reset();
+      setTimeout(() => setStatus("idle"), 4000);
     } catch (error) {
-      console.error("Failed to send email:", error);
-      alert("Failed to send message. Please try again later.");
+      console.error("Email send failed", error);
+      setStatus("error");
+      setTimeout(() => setStatus("idle"), 3000);
     }
   };
 
@@ -53,10 +56,10 @@ function Contact() {
         <div className="contact-layout">
           <motion.div
             className="contact-info"
-            initial={{ opacity: 0, x: -24 }}
+            initial={{ opacity: 0, x: -30 }}
             whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
+            viewport={{ once: true, margin: "-80px" }}
+            transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
           >
             <p className="section-label">Contact</p>
             <h2 className="section-title">Let's build something great</h2>
@@ -79,65 +82,89 @@ function Contact() {
 
           <motion.div
             className="contact-card glass-card"
-            initial={{ opacity: 0, x: 24 }}
+            initial={{ opacity: 0, x: 30 }}
             whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6, delay: 0.1 }}
+            viewport={{ once: true, margin: "-80px" }}
+            transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1], delay: 0.1 }}
           >
-            <form className="contact-form" ref={form} onSubmit={sendEmail}>
-              <div className="form-row">
-                <div className="form-group">
-                  <label htmlFor="name">Name</label>
-                  <input
-                    type="text"
-                    id="name"
-                    name="user_name"
-                    placeholder="John Doe"
-                    required
-                  />
-                </div>
+            <AnimatePresence mode="wait">
+              {status === "success" ? (
+                <motion.div
+                  key="success"
+                  className="contact-success"
+                  initial={{ opacity: 0, scale: 0.9 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  exit={{ opacity: 0, scale: 0.9 }}
+                  transition={{ type: "spring", stiffness: 300, damping: 25 }}
+                >
+                  <div className="success-icon">
+                    <Check size={32} />
+                  </div>
+                  <h3>Message sent!</h3>
+                  <p>Thanks for reaching out. I'll get back to you soon.</p>
+                </motion.div>
+              ) : (
+                <motion.form
+                  key="form"
+                  ref={formRef}
+                  className="contact-form"
+                  onSubmit={sendEmail}
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                >
+                  <div className="form-row">
+                    <div className="form-group">
+                      <label htmlFor="name">Name</label>
+                      <input
+                        type="text"
+                        id="name"
+                        name="user_name"
+                        placeholder="John Doe"
+                        required
+                      />
+                    </div>
 
-                <div className="form-group">
-                  <label htmlFor="email">Email</label>
-                  <input
-                    type="email"
-                    id="email"
-                    name="user_email"
-                    placeholder="john@example.com"
-                    required
-                  />
-                </div>
-              </div>
+                    <div className="form-group">
+                      <label htmlFor="email">Email</label>
+                      <input
+                        type="email"
+                        id="email"
+                        name="user_email"
+                        placeholder="john@example.com"
+                        required
+                      />
+                    </div>
+                  </div>
 
-              <div className="form-group">
-                <label htmlFor="message">Message</label>
-                <textarea
-                  id="message"
-                  name="message"
-                  placeholder="Tell me about your project..."
-                  rows={5}
-                  required
-                ></textarea>
-              </div>
+                  <div className="form-group">
+                    <label htmlFor="message">Message</label>
+                    <textarea
+                      id="message"
+                      name="message"
+                      placeholder="Tell me about your project..."
+                      rows={5}
+                      required
+                    />
+                  </div>
 
-              <button type="submit" className="btn-primary contact-submit">
-                Send message
-                <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-                  <path
-                    d="M14 2L7 9M14 2l-4.5 12L7 9M14 2L2 6.5 7 9"
-                    stroke="currentColor"
-                    strokeWidth="1.5"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  />
-                </svg>
-              </button>
-            </form>
+                  <button
+                    type="submit"
+                    className="btn-primary contact-submit"
+                    disabled={status === "sending"}
+                  >
+                    {status === "sending" ? "Sending..." : "Send message"}
+                    {status === "sending" ? null : <Send size={16} />}
+                    {status === "error" && (
+                      <span className="form-error">Failed. Try again.</span>
+                    )}
+                  </button>
+                </motion.form>
+              )}
+            </AnimatePresence>
           </motion.div>
         </div>
       </div>
     </section>
   );
 }
-
-export default Contact;

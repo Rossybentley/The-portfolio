@@ -59,6 +59,12 @@
   border-radius: var(--radius-sm);
   background: var(--surface);
   border: 1px solid var(--border);
+  transition: border-color 0.3s ease, background 0.3s ease;
+}
+
+.about-highlight:hover {
+  border-color: var(--border-hover);
+  background: var(--surface-hover);
 }
 
 .about-highlight-label {

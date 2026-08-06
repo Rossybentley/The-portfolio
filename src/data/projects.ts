@@ -1,30 +1,31 @@
-import landingPageImg from "../assets/images/landing page.png";
-import guessNumberImg from "../assets/images/guess the number.png";
-import eVotingImg from "../assets/images/e-voting.png";
+import theLayerHausImg from "../assets/images/TheLayerHaus.png";
+import ImageGalleryImg from "../assets/images/ImageGallery.png";
+import AutoStudioImg from "../assets/images/AutoStudio.png";
+import type { Project } from "../types";
 
-export const projects = [
+export const projects: Project[] = [
   {
-    title: "Landing Page",
+    title: "The Layer Haus",
     description:
-      "A responsive marketing landing page with modern design and smooth user interactions. Built with vanilla HTML, CSS, and JavaScript to showcase products and drive user conversions.",
-    tech: ["HTML", "CSS", "JavaScript"],
-    link: "https://landing-page-pearl-ten-80.vercel.app/",
-    image: landingPageImg,
+      "TheLayerHaus interior design studio website showcasing curated interiors, window treatments, and home furnishings.",
+    tech: ["HTML", "CSS", "TypeScript"],
+    link: "https://auto-studio-eosin.vercel.app/",
+    image: theLayerHausImg,
   },
   {
-    title: "Guess the Number",
+    title: "Image Gallery",
     description:
-      "A simple number guessing game built with HTML, CSS, and JavaScript.",
-    tech: ["HTML", "CSS", "JavaScript"],
-    link: "https://guess-the-number-wheat.vercel.app/",
-    image: guessNumberImg,
+      "A modern image gallery built with React, TypeScript, and Unsplash API.",
+    tech: ["React", "TypeScript"],
+    link: "https://image-gallery-one-chi-81.vercel.app/",
+    image: ImageGalleryImg,
   },
   {
-    title: "E-voting",
+    title: "AutoStudio",
     description:
-      "A secure and efficient electronic voting system for conducting online elections.",
-    tech: ["React", "Node.js"],
-    link: "https://e-voting-kappa-flax.vercel.app/",
-    image: eVotingImg,
+      "Luxury vehicle showcase built with React, TypeScript and Vite.",
+    tech: ["React", "TypeScript"],
+    link: "https://rainbow-dusk-68a6e4.netlify.app/",
+    image: AutoStudioImg,
   },
 ];

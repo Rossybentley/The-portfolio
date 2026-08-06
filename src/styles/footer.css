@@ -27,6 +27,11 @@
   font-size: 18px;
   font-weight: 700;
   color: var(--text);
+  transition: opacity 0.2s ease;
+}
+
+.footer-logo:hover {
+  opacity: 0.85;
 }
 
 .footer-brand p {
@@ -48,6 +53,30 @@
 
 .footer-links a:hover {
   color: var(--text);
+}
+
+.footer-social {
+  display: flex;
+  gap: 12px;
+}
+
+.footer-social-link {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  color: var(--text-muted);
+  transition: color 0.3s ease, border-color 0.3s ease, background 0.3s ease;
+}
+
+.footer-social-link:hover {
+  color: var(--text);
+  border-color: var(--accent);
+  background: rgba(139, 92, 246, 0.08);
 }
 
 .footer-copy {

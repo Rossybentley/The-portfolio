@@ -1,5 +1,6 @@
+import { useState, useEffect, useCallback } from "react";
+import { motion } from "framer-motion";
 import "../styles/navbar.css";
-import { useState, useEffect } from "react";
 
 const navLinks = [
   { href: "#home", label: "Home" },
@@ -9,14 +10,38 @@ const navLinks = [
   { href: "#contact", label: "Contact" },
 ];
 
-function Navbar() {
+export default function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const [activeSection, setActiveSection] = useState("#home");
+
+  const handleScroll = useCallback(() => {
+    setScrolled(window.scrollY > 20);
+  }, []);
 
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 20);
-    window.addEventListener("scroll", onScroll);
-    return () => window.removeEventListener("scroll", onScroll);
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, [handleScroll]);
+
+  useEffect(() => {
+    const sections = navLinks.map((l) => document.querySelector(l.href));
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            setActiveSection(`#${entry.target.id}`);
+          }
+        });
+      },
+      { rootMargin: "-40% 0px -55% 0px" }
+    );
+
+    sections.forEach((s) => {
+      if (s) observer.observe(s);
+    });
+
+    return () => observer.disconnect();
   }, []);
 
   const closeMenu = () => setMenuOpen(false);
@@ -32,20 +57,41 @@ function Navbar() {
         <div
           className={`hamburger ${menuOpen ? "active" : ""}`}
           onClick={() => setMenuOpen(!menuOpen)}
+          role="button"
+          tabIndex={0}
           aria-label="Toggle menu"
+          onKeyDown={(e) => {
+            if (e.key === "Enter" || e.key === " ") setMenuOpen(!menuOpen);
+          }}
         >
-          <span></span>
-          <span></span>
-          <span></span>
+          <span />
+          <span />
+          <span />
         </div>
 
         <ul className={`nav-links ${menuOpen ? "show-menu" : ""}`}>
-          {navLinks.map((link) => (
-            <li key={link.href}>
-              <a href={link.href} onClick={closeMenu}>
+          {navLinks.map((link, i) => (
+            <motion.li
+              key={link.href}
+              initial={{ opacity: 0, y: -10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.1 + i * 0.05 }}
+            >
+              <a
+                href={link.href}
+                onClick={closeMenu}
+                className={activeSection === link.href ? "active" : ""}
+              >
                 {link.label}
+                {activeSection === link.href && (
+                  <motion.div
+                    className="nav-active-indicator"
+                    layoutId="activeNav"
+                    transition={{ type: "spring", stiffness: 380, damping: 30 }}
+                  />
+                )}
               </a>
-            </li>
+            </motion.li>
           ))}
           <li className="nav-cta">
             <a
@@ -61,5 +107,3 @@ function Navbar() {
     </nav>
   );
 }
-
-export default Navbar;

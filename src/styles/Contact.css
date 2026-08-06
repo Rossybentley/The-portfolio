@@ -30,6 +30,11 @@
   border-radius: var(--radius-md);
   background: var(--surface);
   border: 1px solid var(--border);
+  transition: border-color 0.3s ease;
+}
+
+.contact-detail:hover {
+  border-color: var(--border-hover);
 }
 
 .contact-detail-label {
@@ -48,6 +53,7 @@
 
 .contact-card {
   padding: 36px;
+  min-height: 400px;
 }
 
 .contact-form {
@@ -86,7 +92,7 @@
   font-family: var(--font-body);
   font-size: 15px;
   outline: none;
-  transition: border-color 0.2s ease, background 0.2s ease;
+  transition: border-color 0.3s ease, background 0.3s ease, box-shadow 0.3s ease;
 }
 
 .contact-form input::placeholder,
@@ -96,8 +102,9 @@
 
 .contact-form input:focus,
 .contact-form textarea:focus {
-  border-color: var(--accent-light);
+  border-color: var(--accent);
   background: var(--surface-hover);
+  box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.1);
 }
 
 .contact-form textarea {
@@ -108,6 +115,52 @@
 .contact-submit {
   width: 100%;
   margin-top: 4px;
+}
+
+.contact-submit:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+.form-error {
+  margin-left: 8px;
+  font-size: 13px;
+  color: #f87171;
+  font-weight: 500;
+}
+
+/* Success state */
+.contact-success {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  min-height: 340px;
+  gap: 16px;
+}
+
+.success-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  background: rgba(74, 222, 128, 0.15);
+  color: #4ade80;
+  margin-bottom: 8px;
+}
+
+.contact-success h3 {
+  font-family: var(--font-display);
+  font-size: 1.5rem;
+  font-weight: 700;
+}
+
+.contact-success p {
+  color: var(--text-muted);
+  font-size: 15px;
 }
 
 @media (max-width: 768px) {
@@ -122,5 +175,6 @@
 
   .contact-card {
     padding: 24px;
+    min-height: auto;
   }
 }

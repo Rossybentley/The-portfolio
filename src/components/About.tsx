@@ -1,13 +1,37 @@
-import "../styles/about.css";
 import { motion } from "framer-motion";
+import type { Variants } from "framer-motion";
+import "../styles/about.css";
 
 const highlights = [
-  { label: "Focus", value: "UI Engineering" },
+  { label: "Focus", value: "Frontend Engineering" },
   { label: "Stack", value: "React & TypeScript" },
+  { label: "Studying", value: "System Design" },
   { label: "Approach", value: "Design-first" },
 ];
 
-function About() {
+const sidebarVariants: Variants = {
+  hidden: { opacity: 0, x: -40 },
+  visible: {
+    opacity: 1,
+    x: 0,
+    transition: { duration: 0.7, ease: [0.22, 1, 0.36, 1] as const },
+  },
+};
+
+const contentVariants: Variants = {
+  hidden: { opacity: 0, x: 40 },
+  visible: {
+    opacity: 1,
+    x: 0,
+    transition: {
+      duration: 0.7,
+      ease: [0.22, 1, 0.36, 1] as const,
+      delay: 0.15,
+    },
+  },
+};
+
+export default function About() {
   return (
     <section className="about" id="about">
       <div className="container">
@@ -19,10 +43,10 @@ function About() {
         <div className="about-grid">
           <motion.div
             className="about-sidebar glass-card"
-            initial={{ opacity: 0, x: -30 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
+            variants={sidebarVariants}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, margin: "-80px" }}
           >
             <div className="about-avatar">
               <span>E</span>
@@ -42,28 +66,34 @@ function About() {
 
           <motion.div
             className="about-content glass-card"
-            initial={{ opacity: 0, x: 30 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6, delay: 0.1 }}
+            variants={contentVariants}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, margin: "-80px" }}
           >
             <p>
-              I am a frontend developer with a passion for creating beautiful
-              and functional user interfaces. I have experience working with
-              React, TypeScript, and CSS, and I am always eager to learn new
-              technologies and improve my skills.
+              I'm a software engineer with a strong focus on frontend
+              development, building fast, responsive, and user-friendly web
+              applications with React, TypeScript, Next.js, HTML, and CSS. I
+              enjoy turning ideas into polished digital experiences that are
+              both visually appealing and easy to use.
             </p>
+
             <p>
-              In my free time, I enjoy exploring new design trends and
-              experimenting with different styles to create unique and engaging
-              web experiences. My background in UI/UX design helps me build
-              intuitive interfaces that feel as good as they look.
+              Beyond the frontend, I'm expanding my expertise into backend
+              development with Node.js, Express, PostgreSQL, Prisma, and REST
+              APIs. I'm also exploring AI integration to build smarter
+              applications and learning how to design systems that are scalable,
+              maintainable, and production-ready.
             </p>
+
             <p>
-              I am committed to delivering high-quality work and collaborating
-              effectively with teams to bring ideas to life. I am also learning
-              data structures and algorithms to become a more well-rounded
-              developer.
+              I'm continuously improving my problem-solving skills by studying
+              data structures, algorithms, and system design while sharpening my
+              Git and collaborative development workflows. With a background in
+              Business Administration, I also bring a business-first perspective
+              to every project, ensuring the products I build solve real user
+              and business problems.
             </p>
           </motion.div>
         </div>
@@ -71,5 +101,3 @@ function About() {
     </section>
   );
 }
-
-export default About;
