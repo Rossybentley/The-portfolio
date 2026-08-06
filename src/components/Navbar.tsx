@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback } from "react";
 import { motion } from "framer-motion";
-import "../styles/navbar.css";
+import "@/styles/navbar.css";
 
 const navLinks = [
   { href: "#home", label: "Home" },
@@ -34,7 +34,7 @@ export default function Navbar() {
           }
         });
       },
-      { rootMargin: "-40% 0px -55% 0px" }
+      { rootMargin: "-40% 0px -55% 0px" },
     );
 
     sections.forEach((s) => {

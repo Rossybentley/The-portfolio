@@ -1,7 +1,7 @@
 import { motion } from "framer-motion";
 import type { Variants } from "framer-motion";
 import { SkillIcon } from "./Icons";
-import "../styles/skills.css";
+import "@/styles/skills.css";
 
 const skillGroups = [
   {

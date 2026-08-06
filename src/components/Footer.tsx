@@ -1,6 +1,6 @@
 import { motion } from "framer-motion";
 import { Github, LinkedIn, Twitter } from "./Icons";
-import "../styles/footer.css";
+import "@/styles/footer.css";
 
 const socialLinks = [
   { icon: Github, href: "https://github.com/Rossybentley", label: "GitHub" },

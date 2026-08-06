@@ -1,6 +1,6 @@
 import { motion } from "framer-motion";
 import type { Variants } from "framer-motion";
-import "../styles/about.css";
+import "@/styles/about.css";
 
 const highlights = [
   { label: "Focus", value: "Frontend Engineering" },

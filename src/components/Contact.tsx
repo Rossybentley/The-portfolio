@@ -2,7 +2,7 @@ import { useRef, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import emailjs from "@emailjs/browser";
 import { Send, Check } from "./Icons";
-import "../styles/contact.css";
+import "@/styles/contact.css";
 
 const SERVICE_ID = import.meta.env.VITE_EMAILJS_SERVICE_ID as
   | string

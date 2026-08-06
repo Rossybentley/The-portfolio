@@ -1,7 +1,7 @@
 import { motion, useMotionValue, useTransform } from "framer-motion";
 import { ExternalLink, Github } from "./Icons";
 import { projects } from "../data/projects";
-import "../styles/projects.css";
+import "@/styles/projects.css";
 
 export default function Projects() {
   return (
