@@ -4,15 +4,16 @@ import emailjs from "@emailjs/browser";
 import { Send, Check } from "./Icons";
 import "@/styles/contact.css";
 
-const SERVICE_ID = import.meta.env.VITE_EMAILJS_SERVICE_ID as
-  | string
-  | undefined;
-const TEMPLATE_ID = import.meta.env.VITE_EMAILJS_TEMPLATE_ID as
-  | string
-  | undefined;
-const PUBLIC_KEY = import.meta.env.VITE_EMAILJS_PUBLIC_KEY as
-  | string
-  | undefined;
+const DEFAULT_SERVICE_ID = "service_l1g15hh";
+const DEFAULT_TEMPLATE_ID = "template_3los4no";
+const DEFAULT_PUBLIC_KEY = "BF9jO2Qd8_YhRjXSi";
+
+const SERVICE_ID = (import.meta.env.VITE_EMAILJS_SERVICE_ID ||
+  DEFAULT_SERVICE_ID) as string;
+const TEMPLATE_ID = (import.meta.env.VITE_EMAILJS_TEMPLATE_ID ||
+  DEFAULT_TEMPLATE_ID) as string;
+const PUBLIC_KEY = (import.meta.env.VITE_EMAILJS_PUBLIC_KEY ||
+  DEFAULT_PUBLIC_KEY) as string;
 const IS_EMAIL_CONFIGURED = Boolean(SERVICE_ID && TEMPLATE_ID && PUBLIC_KEY);
 
 type FormStatus = "idle" | "sending" | "success" | "error";
