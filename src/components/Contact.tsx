@@ -13,6 +13,7 @@ const TEMPLATE_ID = import.meta.env.VITE_EMAILJS_TEMPLATE_ID as
 const PUBLIC_KEY = import.meta.env.VITE_EMAILJS_PUBLIC_KEY as
   | string
   | undefined;
+const IS_EMAIL_CONFIGURED = Boolean(SERVICE_ID && TEMPLATE_ID && PUBLIC_KEY);
 
 type FormStatus = "idle" | "sending" | "success" | "error";
 
@@ -24,10 +25,9 @@ export default function Contact() {
     e.preventDefault();
     if (!formRef.current) return;
 
-    if (!SERVICE_ID || !TEMPLATE_ID || !PUBLIC_KEY) {
-      alert(
-        "Email service not configured. Add VITE_EMAILJS_SERVICE_ID, VITE_EMAILJS_TEMPLATE_ID, and VITE_EMAILJS_PUBLIC_KEY to your .env file.",
-      );
+    if (!IS_EMAIL_CONFIGURED || !SERVICE_ID || !TEMPLATE_ID || !PUBLIC_KEY) {
+      setStatus("error");
+      setTimeout(() => setStatus("idle"), 5000);
       return;
     }
 
@@ -153,10 +153,18 @@ export default function Contact() {
                     className="btn-primary contact-submit"
                     disabled={status === "sending"}
                   >
-                    {status === "sending" ? "Sending..." : "Send message"}
+                    {status === "sending"
+                      ? "Sending..."
+                      : IS_EMAIL_CONFIGURED
+                        ? "Send message"
+                        : "Email service unavailable"}
                     {status === "sending" ? null : <Send size={16} />}
                     {status === "error" && (
-                      <span className="form-error">Failed. Try again.</span>
+                      <span className="form-error">
+                        {IS_EMAIL_CONFIGURED
+                          ? "Failed. Try again."
+                          : "Email service is not configured yet."}
+                      </span>
                     )}
                   </button>
                 </motion.form>
